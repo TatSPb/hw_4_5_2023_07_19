@@ -1,0 +1,30 @@
+POST http://localhost:8089/students
+Content-Type: application/json
+
+{
+  "name": "Мария",
+  "age": 19
+}
+
+###
+GET http://localhost:8089/students/1
+
+###
+PUT http://localhost:8089/students/1
+
+###
+DELETE http://localhost:8089/students/1
+
+###
+GET http://localhost:8089/students?age=19
+
+###
+PATCH http://localhost:8089/students/4/avatar
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="avatar"; filename="3646622.png"
+Content-Type: image/png
+
+<3646622.png
+--WebAppBoundary
