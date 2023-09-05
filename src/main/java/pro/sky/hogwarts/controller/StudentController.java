@@ -41,8 +41,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<StudentDtoOut> findAll(@RequestParam(required = false) Integer age) {
-        return studentService.findAll(age);
+    public List<StudentDtoOut> findAllByAge(@RequestParam(required = false) Integer age) {
+        return studentService.findAllByAge(age);
     }
 
     @GetMapping("/filter")

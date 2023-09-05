@@ -73,7 +73,7 @@ public class  StudentService {
                 .orElseThrow(() -> new StudentNotFoundException(id));
     }
 
-    public List<StudentDtoOut> findAll(@Nullable Integer age) {
+    public List<StudentDtoOut> findAllByAge(@Nullable Integer age) {
         return Optional.ofNullable(age)
                 .map(studentRepository::findAllByAge)
                 .orElseGet(studentRepository::findAll).stream()
