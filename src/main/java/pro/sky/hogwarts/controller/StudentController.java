@@ -21,33 +21,33 @@ public class StudentController {
     }
 
     @PostMapping
-    public StudentDtoOut create(@RequestBody StudentDtoIn studentDtoIn) {
-        return studentService.create(studentDtoIn);
+    public StudentDtoOut createStudent(@RequestBody StudentDtoIn studentDtoIn) {
+        return studentService.createStudent(studentDtoIn);
+    }
+
+    @GetMapping("/{id}")
+    public StudentDtoOut getStudent(@PathVariable("id") long id) {
+        return studentService.getStudent(id);
     }
 
     @PutMapping("/{id}")
     public StudentDtoOut update(@PathVariable("id") long id, @RequestBody StudentDtoIn studentDtoIn) {
-        return studentService.update(id, studentDtoIn);
-    }
-
-    @GetMapping("/{id}")
-    public StudentDtoOut get(@PathVariable("id") long id) {
-        return studentService.get(id);
+        return studentService.updateStudent(id, studentDtoIn);
     }
 
     @DeleteMapping("/{id}")
-    public StudentDtoOut delete(@PathVariable("id") long id) {
-        return studentService.delete(id);
+    public StudentDtoOut deleteStudent(@PathVariable("id") long id) {
+        return studentService.deleteStudent(id);
     }
 
     @GetMapping
-    public List<StudentDtoOut> findAllByAge(@RequestParam(required = false) Integer age) {
-        return studentService.findAllByAge(age);
+    public List<StudentDtoOut> findAllStudentsByAge(@RequestParam(required = false) Integer age) {
+        return studentService.findAllStudentsByAge(age);
     }
 
     @GetMapping("/filter")
-    public List<StudentDtoOut> findByAgeBetween(@RequestParam int ageFrom, @RequestParam int ageTo) {
-        return studentService.findByAgeBetween(ageFrom, ageTo);
+    public List<StudentDtoOut> findStudentsByAgeBetween(@RequestParam int ageFrom, @RequestParam int ageTo) {
+        return studentService.findStudentsByAgeBetween(ageFrom, ageTo);
     }
 
     @GetMapping("/{id}/faculty")
@@ -56,9 +56,24 @@ public class StudentController {
     }
 
     @PatchMapping(value = "/{id}/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-        public StudentDtoOut uploadAvatar(@PathVariable("id") long id,
-                                          @RequestPart("avatar") MultipartFile multipartFile){
-        return studentService.uploadAvatar(id, multipartFile);
+    public StudentDtoOut uploadAvatar(@PathVariable("id") long id,
+                                      @RequestPart("avatar") MultipartFile multipartFile) {
+        return studentService.uploadAvatarToStudent(id, multipartFile);
     }
 
+    @GetMapping("/count")
+    public int getCountOfStudents(){
+        return studentService.getCountOfStudents();
+    }
+
+    @GetMapping("/averageAge")
+    public double getAverageAge(){
+        return studentService.getAverageAge();
+    }
+
+    @GetMapping("/lastStudents")
+    public List<StudentDtoOut> getLastStudents
+            (@RequestParam(value ="count", defaultValue = "5", required = false) int count){
+        return studentService.getLastStudents(Math.abs(count)); // модуль числа
+    }
 }

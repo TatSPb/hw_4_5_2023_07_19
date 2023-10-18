@@ -2,11 +2,5 @@ databaseChangeLog:
   - include:
       file: liquibase/course-four-lesson-three.sql
 
-#databaseChangeLog:
-#  - changeSet:
-#      id: 1
-#      author: TSve
-#      changes:
-#        - sqlFile:
-#            path: liquibase/course-four-lesson-three.sql
+
 
