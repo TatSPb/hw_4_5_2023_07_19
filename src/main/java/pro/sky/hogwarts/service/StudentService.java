@@ -147,7 +147,7 @@ public class StudentService {
 //                .collect(Collectors.toList());
 //    }
 
-    public List<String> getNamesStartsWithA(){
+    public List<String> getNamesStartsWithA() {
         LOG.info("Was invoked method GET_NAMES_STARTS_WITH_A");
         return studentRepository.findAll().stream()
                 .map(student -> student.getName().toUpperCase())
@@ -157,7 +157,7 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public List<String> getNamesStartsWith(String letter){
+    public List<String> getNamesStartsWith(String letter) {
         LOG.info("Was invoked method GET_NAMES_STARTS_WITH");
         return studentRepository.findAll().stream()
                 .map(student -> student.getName().toUpperCase())
@@ -183,9 +183,57 @@ public class StudentService {
                 .mapToDouble(Student::getAge)
                 .average()
                 .getAsDouble();
-
     }
 
+    public void taskThread() {
+        LOG.info("Was invoked method TASK_THREAD");
+        List<Student> students = studentRepository.findAll();
+
+        printStudent(students.get(0));
+        printStudent(students.get(1));
+
+        new Thread(() -> {
+            printStudent(students.get(2));
+            printStudent(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudent(students.get(4));
+            printStudent(students.get(5));
+        }).start();
+    }
+
+    private void printStudent(Student student) {
+        try {
+            Thread.sleep(1000);
+            LOG.info(student.toString());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void taskThreadSync() {
+        LOG.info("Was invoked method TASK_THREAD_SYNC");
+        List<Student> students = studentRepository.findAll();
+        LOG.info(students.toString());
+
+        printStudentSync(students.get(0));
+        printStudentSync(students.get(1));
+
+        new Thread(() -> {
+            printStudentSync(students.get(2));
+            printStudentSync(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudentSync(students.get(4));
+            printStudentSync(students.get(5));
+        }).start();
+    }
+
+    private synchronized void printStudentSync(Student student) {
+        printStudent(student);
+    }
 
 
 }
