@@ -53,4 +53,24 @@ public class FacultyController {
     public List<StudentDtoOut> findStudents(@PathVariable("id") long id){
         return facultyService.findStudents(id);
     }
+
+    @GetMapping("longest-name")
+    public String getLongestFacultyName(){
+        return facultyService.getLongestFacultyName();
+    }
+
+    @GetMapping("/sum")
+    public Integer sum(){
+        return facultyService.sum();
+    }
+
+    @GetMapping("/sum-improved-1")
+    public Integer sumImproved_1(){
+        return facultyService.sumImproved1();
+    }
+
+    @GetMapping("/sum-improved-2")
+    public Integer sumImproved_2(){
+        return facultyService.sumImproved2();
+    }
 }

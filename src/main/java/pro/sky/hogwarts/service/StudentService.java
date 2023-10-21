@@ -19,6 +19,7 @@ import pro.sky.hogwarts.mapper.StudentMapper;
 import pro.sky.hogwarts.repository.FacultyRepository;
 import pro.sky.hogwarts.repository.StudentRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -146,5 +147,45 @@ public class StudentService {
 //                .collect(Collectors.toList());
 //    }
 
+    public List<String> getNamesStartsWithA(){
+        LOG.info("Was invoked method GET_NAMES_STARTS_WITH_A");
+        return studentRepository.findAll().stream()
+                .map(student -> student.getName().toUpperCase())
+                .filter(name -> name.startsWith("A"))
+                //.filter(name -> name.startsWith("A") || name.startsWith("a"))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getNamesStartsWith(String letter){
+        LOG.info("Was invoked method GET_NAMES_STARTS_WITH");
+        return studentRepository.findAll().stream()
+                .map(student -> student.getName().toUpperCase())
+                .filter(name -> name.startsWith(letter))
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
+    }
+
+    public double getAvgAgeByStreams() {
+        LOG.info("Was invoked method GET_AVG_AGE_BY_STREAMS");
+
+        //Вар-1:
+//        List<Student> students = studentRepository.findAll();
+//        int sumAge = students.stream()
+//                .map(Student::getAge)
+//                .reduce(Integer::sum)
+//                .get();
+//        return (double) sumAge / students.size();
+//
+
+        //Вар-2:
+        return studentRepository.findAll().stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .getAsDouble();
+
+    }
+
+
+
 }
-//commit logs

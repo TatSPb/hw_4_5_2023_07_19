@@ -76,4 +76,18 @@ public class StudentController {
             (@RequestParam(value ="count", defaultValue = "5", required = false) int count){
         return studentService.getLastStudents(Math.abs(count)); // модуль числа
     }
+    @GetMapping("/names-start-with-a")
+    public List<String> getNameStartsWithA(){
+        return studentService.getNamesStartsWithA();
+    }
+    @GetMapping("/letter")
+    public List<String> getNameStartsWith(@RequestParam String letter){
+        return studentService.getNamesStartsWith(letter);
+    }
+    @GetMapping("/avg-age")
+    public double getAvgAgeByStreams(){
+        return studentService.getAvgAgeByStreams();
+    }
+
+
 }

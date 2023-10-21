@@ -14,9 +14,11 @@ import pro.sky.hogwarts.mapper.StudentMapper;
 import pro.sky.hogwarts.repository.FacultyRepository;
 import pro.sky.hogwarts.repository.StudentRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -90,5 +92,47 @@ public class FacultyService {
                 .map(studentMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    public String getLongestFacultyName(){
+        LOG.info("Was invoked method GET_LONGEST_FACULTY_NAME");
+        return  facultyRepository.findAll().stream()
+                .map(faculty -> faculty.getName())
+                .max(Comparator.comparing(String::length))
+                .get();
+    }
+
+    public Integer sum(){
+        LOG.info("Was invoked method SUM");
+        long time = System.currentTimeMillis();
+        int res = Stream
+                .iterate(1, a -> a +1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
+        System.out.println("original: " + (System.currentTimeMillis() - time));
+        return  res;
+    }
+    public Integer sumImproved1(){
+        LOG.info("Was invoked method SUM_IMPROVED_1");
+        long time = System.currentTimeMillis();
+        int res = Stream
+                .iterate(1, a -> a +1)
+                //.parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
+
+        System.out.println("improved_1: " + (System.currentTimeMillis() - time));
+        return res;
+    }
+    public Integer sumImproved2(){
+        LOG.info("Was invoked method SUM_IMPROVED_2");
+        long time = System.currentTimeMillis();
+        int res = Stream
+                .iterate(1, a -> a +1)
+                //.parallel()
+                .limit(1_000_000)
+                .reduce(0, Integer::sum);
+
+        System.out.println("improved_2: " + (System.currentTimeMillis() - time));
+        return res;
+    }
 }
-//commit logs
